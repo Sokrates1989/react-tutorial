@@ -154,7 +154,7 @@ docker run -p 80:80 react-prod
 # 📁 Project Structure
 
 ```
-react-docker-template/
+react-tut-keepa/
 ├── docker-compose.yml
 ├── Dockerfile
 ├── .dockerignore

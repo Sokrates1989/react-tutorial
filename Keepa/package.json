@@ -1,11 +1,12 @@
 {
-  "name": "react-docker-template",
+  "name": "react-tut-keepa",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "react-tut-keepa": "file:"
   },
   "scripts": {
     "start": "react-scripts start"
