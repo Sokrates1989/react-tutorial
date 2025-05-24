@@ -7,15 +7,10 @@ A personal project created to capture and grow my React knowledge. It serves as 
 ## Table of Contents
 
 1. [📖 Overview](#-overview)
-2. [🧑‍💻 Usage](#-usage)
-3. [🛠️ Setup & Structure](#-setup--structure)
-4. [📦 Learning Modules](#-learning-modules)
-   - [📘 Basic React](#-basic-react)
-   - [📘 Intermediate Concepts](#-intermediate-concepts)
-   - [📘 Advanced Techniques](#-advanced-techniques)
-5. [💡 Notes & Resources](#-notes--resources)
-6. [🧪 Experiments & Playground](#-experiments--playground)
-7. [🚀 Summary](#-summary)
+2. [🖼️ Current Template Preview](#-current-template-preview)
+3. [🧑‍💻 Usage](#-usage)
+4. [🛠️ Setup & Structure](#-setup--structure)
+8. [🚀 Summary](#-summary)
 
 <br>
 
@@ -27,12 +22,24 @@ Each module is clearly separated and well-documented.
 
 <br><br>
 
+# 🖼️ Current Template Preview
+
+Here's what the current template looks like:
+
+![React Template Screenshot](template.png)
+
+<br><br>
+
 # 🧑‍💻 Usage
 
-You can clone and run the template using the following commands:
+You can clone and run any module using the following commands:
 
 ```bash
 git clone https://github.com/Sokrates1989/react-tutorial.git
+
+cd <module-name>
+
+docker compose up
 ```
 
 
