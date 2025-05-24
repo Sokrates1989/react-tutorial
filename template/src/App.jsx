@@ -6,8 +6,11 @@ import Footer from "./components/Footer";
 function App() {
   return (
     <>
-      <Header />
-      <Note />
+      <Header title="Property based Header"/>
+      <Note 
+        title="Property Given Title" 
+        content="Property based content" 
+      />
       <Footer />
     </>
   );
