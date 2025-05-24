@@ -1,10 +1,15 @@
 import React from "react";
+import Note from "./components/Note";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 function App() {
   return (
-    <div style={{ padding: 40 }}>
-      <h1>Hello from Docker-powered React! 🐳</h1>
-    </div>
+    <>
+      <Header />
+      <Note />
+      <Footer />
+    </>
   );
 }
 
