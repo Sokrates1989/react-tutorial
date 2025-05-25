@@ -1,12 +1,12 @@
 import React from "react";
 
 // Header, footer, note.
-import Note from "./components/Note";
+import Note from "./components/note/Note";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 // Contact card.
-import ContactCard from "./components/ContactCard";
+import ContactCard from "./components/contact-card/ContactCard";
 import contacts from "./data/contacts";
 
 function App() {
