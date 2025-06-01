@@ -51,7 +51,24 @@ function createContactCard(contact, index) {
   );
 }
 
+
+
+function getContactSummary(contacts) {
+  const names = contacts.map(contact => contact.name);
+
+  if (names.length === 0) {
+    return "";
+  } else if (names.length === 1) {
+    return names[0];
+  } else if (names.length === 2) {
+    return names.join(" and ");
+  } else {
+    return names.slice(0, -1).join(", ") + " and " + names[names.length - 1];
+  }
+}
+
 export {
   ContactCard as default,
-  createContactCard
+  createContactCard,
+  getContactSummary
 };

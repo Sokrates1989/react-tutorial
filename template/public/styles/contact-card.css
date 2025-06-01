@@ -5,6 +5,13 @@
   margin: 20px 0 30px;
 }
 
+.sub-title {
+  text-align: center;
+  font-size: 1.3em;
+  color: #636e72;
+  margin: 10px 0 20px;
+}
+
 .card-wrapper {
   margin: 0 auto;
   padding: 5px;
