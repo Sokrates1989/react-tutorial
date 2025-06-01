@@ -1,38 +1,12 @@
 import React from "react";
 
 // emojipedia widget.
-import EmojiExplainWidget from "./components/emojipedia/EmojiExplainWidget";
+import EmojiExplainWidget, {
+  createEmojiExplainWidget,
+  createMeaningOutput,
+  getTruncatedMeanings
+} from "./components/emojipedia/EmojiExplainWidget";
 import emojipedia from "./data/emojipedia";
-
-function createEmojiExplainWidget(emojiData, index) {
-  return (
-    <EmojiExplainWidget
-      key={index}
-      emoji={emojiData.emoji}
-      name={emojiData.name}
-      meaning={emojiData.meaning}
-    />
-  );
-}
-
-function createMeaningOutput(meaning, index) {
-  return (
-    <p 
-      key={index} >{meaning}</p>
-  );
-}
-
-
-// Only meaning max 100 chars.
-var onlyMeaning100Chars = []
-emojipedia.forEach((currentValue, index, array) => {
-  let meaning = currentValue.meaning;
-  if (meaning.length > 100) {
-    meaning = meaning.slice(0, 97) + "..."; // 97 + 3 = 100
-  }
-  onlyMeaning100Chars.push(meaning);
-});
-console.log(onlyMeaning100Chars);
 
 
 function App() {
@@ -60,7 +34,7 @@ function App() {
       </dl>
 
       
-      {onlyMeaning100Chars.map(createMeaningOutput)}
+      {getTruncatedMeanings(emojipedia).map(createMeaningOutput)}
     </div>
   );
 }
