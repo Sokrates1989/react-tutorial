@@ -15,6 +15,25 @@ function createEmojiExplainWidget(emojiData, index) {
   );
 }
 
+function createMeaningOutput(meaning, index) {
+  return (
+    <p 
+      key={index} >{meaning}</p>
+  );
+}
+
+
+// Only meaning max 100 chars.
+var onlyMeaning100Chars = []
+emojipedia.forEach((currentValue, index, array) => {
+  let meaning = currentValue.meaning;
+  if (meaning.length > 100) {
+    meaning = meaning.slice(0, 97) + "..."; // 97 + 3 = 100
+  }
+  onlyMeaning100Chars.push(meaning);
+});
+console.log(onlyMeaning100Chars);
+
 
 function App() {
   return (
@@ -39,6 +58,9 @@ function App() {
           */}
         {emojipedia.map(createEmojiExplainWidget)}
       </dl>
+
+      
+      {onlyMeaning100Chars.map(createMeaningOutput)}
     </div>
   );
 }
