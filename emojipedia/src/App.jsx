@@ -1,13 +1,19 @@
 import React from "react";
 
-// Header, footer, note.
-import Note from "./components/note/Note";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+// emojipedia widget.
+import EmojiExplainWidget from "./components/emojipedia/EmojiExplainWidget";
+import emojipedia from "./data/emojipedia";
 
-// Contact card.
-import ContactCard from "./components/contact-card/ContactCard";
-import contacts from "./data/contacts";
+function createEmojiExplainWidget(emojiData, index) {
+  return (
+    <EmojiExplainWidget
+      key={index}
+      emoji={emojiData.emoji}
+      name={emojiData.name}
+      meaning={emojiData.meaning}
+    />
+  );
+}
 
 
 function App() {
@@ -18,44 +24,20 @@ function App() {
       </h1>
 
       <dl className="dictionary">
-        <div className="term">
-          <dt>
-            <span className="emoji" role="img" aria-label="Tense Biceps">
-              💪
-            </span>
-            <span>Tense Biceps</span>
-          </dt>
-          <dd>
-            “You can do that!” or “I feel strong!” Arm with tense biceps. Also
-            used in connection with doing sports, e.g. at the gym.
-          </dd>
-        </div>
-        <div className="term">
-          <dt>
-            <span className="emoji" role="img" aria-label="Tense Biceps">
-              🙏
-            </span>
-            <span>Person With Folded Hands</span>
-          </dt>
-          <dd>
-            Two hands pressed together. Is currently very introverted, saying a
-            prayer, or hoping for enlightenment. Is also used as a “high five”
-            or to say thank you.
-          </dd>
-        </div>
-        <div className="term">
-          <dt>
-            <span className="emoji" role="img" aria-label="Tense Biceps">
-              🤣
-            </span>
-            <span>Rolling On The Floor, Laughing</span>
-          </dt>
-          <dd>
-            This is funny! A smiley face, rolling on the floor, laughing. The
-            face is laughing boundlessly. The emoji version of “rofl“. Stands
-            for „rolling on the floor, laughing“.
-          </dd>
-        </div>
+        {/* 
+            Explanation:
+            When calling emojipedia.map(createContactCard), the map function internally
+            calls createContactCard(contact, index) for each element in the emojipedia array.
+            Array.prototype.map passes three arguments to the callback function:
+
+            1. The current element (in this case, a contact object)
+            2. The current index
+            3. The entire array (not used here, but available)
+
+            This means our createContactCard function will receive both the contact data
+            and the index, making it a perfect fit for use in React to render lists like this:
+          */}
+        {emojipedia.map(createEmojiExplainWidget)}
       </dl>
     </div>
   );
