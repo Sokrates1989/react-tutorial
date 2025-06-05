@@ -1,51 +1,45 @@
-# 🚀 React App in Docker – No Node.js Installation Required
 
-A professional template to build and run a React.js application fully inside Docker — no local Node.js installation needed. This setup simplifies onboarding, ensures a consistent environment, and supports fast local development.
+# ⚡ React + Vite App in Docker — No Local Node.js Needed
 
-## Table of Contents
+A modern Vite + React template fully Dockerized — no local Node.js required. Includes production build via NGINX, live environment variable support, and clean developer onboarding.
+
+---
+
+## 📚 Table of Contents
 
 1. [📖 Overview](#-overview)  
-2. [🧑‍💻 Usage](#-usage)  
-3. [🛠️ Configuration](#-configuration)  
+2. [🚀 Quick Start](#-quick-start)  
+3. [⚙️ Environment Variables](#️-environment-variables)  
 4. [🐳 Docker Setup](#-docker-setup)  
-   - [📦 Dockerfile Explained](#-dockerfile-explained)  
+   - [📦 Dockerfile](#-dockerfile)  
    - [📂 Docker Compose](#-docker-compose)  
-5. [🧪 Development Tips](#-development-tips)  
-   - [🌱 Environment Variables](#-environment-variables)  
-   - [⚠️ Deprecation Notices](#-deprecation-notices)  
-6. [📦 Production Build](#-production-build)  
-   - [📄 Multistage Dockerfile (Nginx)](#-multistage-dockerfile-nginx)  
+5. [🏗️ Production](#-production)  
+6. [🧪 Development Tips](#-development-tips)  
 7. [📁 Project Structure](#-project-structure)  
-8. [🚀 Summary](#-summary)
+8. [✅ Summary](#-summary)
 
-<br>
-<br>
+---
 
-# 📖 Overview
+## 📖 Overview
 
-This project bootstraps a minimal React.js app using Docker to handle all dependencies and development environment setup. It's ideal if you:
+This project runs a **Vite-powered React app** inside Docker. No Node.js or dependencies need to be installed locally. Includes:
 
-- Don’t want to install Node.js locally.
-- Need a reproducible dev setup across machines or teams.
-- Prefer clean separation between host and dev environments.
+- ⚡ Lightning-fast builds via [Vite](https://vitejs.dev)
+- 🐳 Dockerized NGINX server for production
+- 🛠️ Live `.env` support via Vite conventions
+- 🎨 Custom favicon handling
 
-It uses:
-- `node:24` base image
-- `react-scripts` for development server
-- `docker-compose` for easy volume and port setup
+---
 
-<br>
-<br>
+## 🚀 Quick Start
 
-# 🧑‍💻 Usage
-
-To start the development server:
+To build and start the app:
 
 ```bash
 docker-compose up --build
 ```
 
-Then open [http://localhost:3000](http://localhost:3000)
+Then open [http://localhost](http://localhost)
 
 To stop:
 
@@ -53,125 +47,115 @@ To stop:
 docker-compose down
 ```
 
-<br>
-<br>
+---
 
-# 🛠️ Configuration
+## ⚙️ Environment Variables
 
-No local setup is required other than Docker and Docker Compose.
-
-To customize the behavior (e.g., port, browser, etc.), create a `.env.development` file:
+Use a `.env` file to define frontend-accessible values:
 
 ```env
-PORT=3000
-BROWSER=none
-FAST_REFRESH=true
+VITE_BACKEND_URL=https://api.example.com
 ```
 
-<br>
-<br>
+In React code, access them via:
 
-# 🐳 Docker Setup
+```js
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+```
 
-## 📦 Dockerfile Explained
+---
+
+## 🐳 Docker Setup
+
+### 📦 Dockerfile
 
 ```Dockerfile
-FROM node:24
+FROM node:24 AS builder
 
 WORKDIR /app
 COPY package*.json ./
+COPY vite.config.js ./
 RUN npm install
 COPY . .
-EXPOSE 3000
-CMD ["npm", "start"]
+RUN npm run build
+
+FROM nginx:stable-alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
 ```
 
-## 📂 Docker Compose
+---
+
+### 📂 docker-compose.yml
 
 ```yaml
 services:
   react-app:
     build: .
     ports:
-      - "3000:3000"
+      - "80:80"
     volumes:
       - .:/app
       - /app/node_modules
     environment:
+      - VITE_BACKEND_URL=${VITE_BACKEND_URL}
       - CHOKIDAR_USEPOLLING=true
 ```
 
-<br>
+---
 
-# 🧪 Development Tips
+## 🏗️ Production
 
-## 🌱 Environment Variables
-
-Using `.env.development` is a safe way to override defaults without touching Dockerfiles.
-
-## ⚠️ Deprecation Notices
-
-You may see these logs:
-
-- `fs.F_OK is deprecated`
-- `onAfterSetupMiddleware` deprecated
-
-These come from `react-scripts` and **do not impact functionality**. You can ignore them safely.
-
-For a modern stack, consider switching to [Vite](https://vitejs.dev/) in the future.
-
-<br>
-
-# 📦 Production Build
-
-## 📄 Multistage Dockerfile (Nginx)
-
-To create a production-ready image:
-
-```Dockerfile
-FROM node:24 AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
-
-FROM nginx:alpine
-COPY --from=builder /app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
-```
-
-Build and run:
+This setup serves production builds using NGINX. Just run:
 
 ```bash
-docker build -t react-prod .
-docker run -p 80:80 react-prod
+docker-compose up --build
 ```
 
-<br>
+This runs:
+- `vite build`
+- NGINX serving from `dist/` on port 80
 
-# 📁 Project Structure
+---
+
+## 🧪 Development Tips
+
+- All Vite env vars **must be prefixed with `VITE_`**
+- To prevent favicon caching issues, use a custom name like `favicon-vite.ico` and reference it in `index.html`:
+  ```html
+  <link rel="icon" href="/favicon-vite.ico" />
+  ```
+- To test in a clean browser context:
+  ```bash
+  open -na "Google Chrome" --args --user-data-dir="/tmp/chrome-test"
+  ```
+
+---
+
+## 📁 Project Structure
 
 ```
 react-docker-template/
 ├── docker-compose.yml
 ├── Dockerfile
-├── .dockerignore
-├── .gitignore
-├── package.json
+├── .env
 ├── public/
-│ └── index.html
-└── src/
-├── App.jsx
-└── index.js
+│   ├── index.html
+│   └── favicon-vite.ico
+├── src/
+│   ├── App.jsx
+│   ├── index.jsx
+│   └── components/
+├── vite.config.js
+└── package.json
 ```
 
-<br>
+---
 
-# 🚀 Summary
+## ✅ Summary
 
-✅ **No local Node.js required** — Docker handles it all  
-✅ **Modern structure** for scalable React apps  
-✅ **Optional production build** with Nginx  
-✅ **Clean developer experience** for teams and CI/CD pipelines  
+✅ **Modern Vite-powered build system**  
+✅ **NGINX for fast static production serving**  
+✅ **No local Node.js or global installs required**  
+✅ **Ideal for teams, CI/CD, or cloud containers**

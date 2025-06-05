@@ -1,16 +1,27 @@
-# Use official Node.js LTS image
-FROM node:24
+# --- Stage 1: Build the Vite app ---
+FROM node:24 AS builder
 
-# Set working directory
 WORKDIR /app
 
-# Copy package.json and install dependencies
 COPY package*.json ./
+COPY vite.config.js ./
+COPY public/index.html ./index.html      
 RUN npm install
 
-# Copy app files
 COPY . .
 
-# Expose port and start dev server
-EXPOSE 3000
-CMD ["npm", "start"]
+RUN npm run build
+
+
+# --- Stage 2: Serve with NGINX ---
+FROM nginx:stable-alpine
+
+# Copy built app from builder
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Optional: Replace NGINX config if needed
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

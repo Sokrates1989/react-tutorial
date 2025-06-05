@@ -2,9 +2,10 @@ services:
   react-app:
     build: .
     ports:
-      - "3000:3000"
+      - "80:80"
     volumes:
       - .:/app
       - /app/node_modules
     environment:
+      - VITE_BACKEND_URL=${VITE_BACKEND_URL}
       - CHOKIDAR_USEPOLLING=true  # Needed for hot reload on some OS
