@@ -1,5 +1,7 @@
 node_modules/
+dist/
 build/
 .env
+public/env.js
 package-lock.json
 .DS_Store

@@ -16,12 +16,18 @@ RUN npm run build
 # --- Stage 2: Serve with NGINX ---
 FROM nginx:stable-alpine
 
-# Copy built app from builder
+# Copy built app from builder.
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Optional: Replace NGINX config if needed
+# Optional: Replace NGINX config if needed.
 # COPY nginx.conf /etc/nginx/nginx.conf
 
+# Copy entrypoint script.
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Enter container using port 80 (default http port).
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+# Use custom entrypoint instead of default CMD.
+ENTRYPOINT ["/entrypoint.sh"]
