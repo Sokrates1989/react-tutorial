@@ -11,6 +11,7 @@
 #
 # Variables injected into window._env_:
 # - VITE_BACKEND_URL
+# - VITE_COMPANY_NAME
 #
 # These should be passed as environment variables when starting the container,
 # e.g. via Azure Container Apps, Docker CLI, or Kubernetes.
@@ -21,7 +22,8 @@
 # Write env.js file based on current environment variables
 cat <<EOF > /usr/share/nginx/html/env.js
 window._env_ = {
-  VITE_BACKEND_URL: "${VITE_BACKEND_URL}"
+  VITE_BACKEND_URL: "${VITE_BACKEND_URL}",
+  VITE_COMPANY_NAME: "${VITE_COMPANY_NAME}"
 };
 EOF
 
